@@ -7,20 +7,10 @@ const rssParser = new Parser();
 
 // --- STRICT CONFLICT FILTER ---
 // --- STRICT CONFLICT FILTER ---
-const TARGET_KEYWORDS = [
-  // Primary State Actors & Demonyms
-  'iran', 'iranian', 'israel', 'israeli', 'us ', 'u.s.', 'usa', 'united states', 'american',
-  
-  // Capitals & Strategic Geographies
-  'tehran', 'tel aviv', 'jerusalem', 'washington', 'gaza', 'beirut', 'damascus', 'sanaa', 
-  'red sea', 'golan heights', 'west bank', 'rafah', 'strait of hormuz', 'gulf of aden',
-
-  // Military, Intelligence & Leadership
-  'idf', 'irgc', 'quds force', 'mossad', 'shin bet', 'pentagon', 'centcom', 
-  'khamenei', 'netanyahu', 'biden',
-
-  // Proxies & Non-State Actors (The Axis of Resistance)
-  'hezbollah', 'hamas', 'houthi', 'houthis', 'ansarallah', 'kataib hezbollah', 'axis of resistance'
+// --- STRICT IRAN-CENTRIC FILTER ---
+// Only pull articles where the Iran ecosystem is explicitly mentioned
+const IRAN_KEYWORDS = [
+  'iran', 'iranian', 'tehran', 'irgc', 'quds force', 'khamenei', 'strait of hormuz'
 ];
 
 // --- NLP & SCORING ENGINE ---
@@ -278,7 +268,9 @@ async function runPipeline() {
   // 2. STRICT FILTER: Keep only events mentioning US, Israel, Iran, or key proxies
   const relevantEvents = allEvents.filter(event => {
     const text = event.claim_text.toLowerCase();
-    return TARGET_KEYWORDS.some(keyword => text.includes(keyword));
+    
+    // The article MUST contain at least one Iran-specific keyword to be saved
+    return IRAN_KEYWORDS.some(keyword => text.includes(keyword));
   });
 
   // 3. Insert into Database
