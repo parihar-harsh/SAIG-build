@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// 1. Connection Function
+
 export const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
@@ -14,7 +14,6 @@ export const connectDB = async () => {
   }
 };
 
-// 2. The Schema (Enforcing the mandatory minimum fields)
 const eventSchema = new mongoose.Schema({
   event_datetime_utc: { type: Date, required: true },
   source_name: { type: String, required: true },
@@ -33,5 +32,4 @@ const eventSchema = new mongoose.Schema({
   last_updated_at: { type: Date, default: Date.now }
 });
 
-// 3. Export the Model
 export const Event = mongoose.model('Event', eventSchema);
