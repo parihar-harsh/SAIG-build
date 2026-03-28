@@ -9,10 +9,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Initialize Database Connection
+
 connectDB();
 
-// The Single Route
+
 app.get('/api/events', async (req, res) => {
   try {
     const events = await Event.find().sort({ event_datetime_utc: -1 });
@@ -22,11 +22,11 @@ app.get('/api/events', async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 });
-// NEW ROUTE: Trigger the scraper manually
+
 app.post('/api/sync', (req, res) => {
   console.log('Live sync triggered by analyst...');
   
-  // This tells the server to run your seed.js file in the background
+ 
   exec('node seed.js', (error, stdout, stderr) => {
     if (error) {
       console.error(`Sync error: ${error}`);
