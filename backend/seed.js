@@ -5,25 +5,19 @@ import nlp from 'compromise';
 
 const rssParser = new Parser();
 
-// --- STRICT CONFLICT FILTER ---
-// --- STRICT CONFLICT FILTER ---
-// --- STRICT IRAN-CENTRIC FILTER ---
-// Only pull articles where the Iran ecosystem is explicitly mentioned
+
 const IRAN_KEYWORDS = [
   'iran', 'iranian', 'tehran', 'irgc', 'quds force', 'khamenei', 'strait of hormuz'
 ];
 
-// --- NLP & SCORING ENGINE ---
 function processText(text, sourceType) {
   const doc = nlp(text);
   
-  // Isolate strictly geographic places for the location field
   let rawPlaces = [...new Set(doc.places().out('array'))];
   let places = rawPlaces
     .map(e => e.replace(/(['’]s|s['’])$/i, '').replace(/^(the|a|an)\s+/i, '').replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, '').trim())
     .filter(e => e.length > 2);
 
-  // Extract other entities for actors
   let rawEntities = [...new Set([...doc.organizations().out('array'), ...doc.people().out('array')])];
   let entities = rawEntities
     .map(e => e.replace(/(['’]s|s['’])$/i, '').replace(/^(the|a|an)\s+/i, '').replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, '').trim())
@@ -33,7 +27,7 @@ function processText(text, sourceType) {
   let severity = text.toLowerCase().includes('dead') || text.toLowerCase().includes('strike') || text.toLowerCase().includes('attack') ? 8 : 4;
 
   return {
-    location_text: places.length > 0 ? places[0] : 'Unknown', // Explicitly use places here
+    location_text: places.length > 0 ? places[0] : 'Unknown', 
     actor_1: entities.length > 0 ? entities[0] : 'Unknown',
     actor_2: entities.length > 1 ? entities[1] : 'Unknown',
     confidence,
@@ -41,7 +35,7 @@ function processText(text, sourceType) {
   };
 }
 
-// --- CATEGORY 1: NGO (ReliefWeb) ---
+
 async function fetchNGO() {
   try {
     const response = await axios.get('https://api.reliefweb.int/v1/reports', {
@@ -70,7 +64,7 @@ async function fetchNGO() {
   } catch (e) { return []; }
 }
 
-// --- CATEGORY 2: OFFICIAL / IGO (UN News) ---
+
 async function fetchOfficial() {
   try {
     const feed = await rssParser.parseURL('https://news.un.org/feed/subscribe/en/news/region/middle-east/feed/rss.xml');
@@ -96,7 +90,6 @@ async function fetchOfficial() {
   } catch (e) { return []; }
 }
 
-// --- CATEGORY 3: NEWS MEDIA (Al Jazeera) ---
 async function fetchNews() {
   try {
     const feed = await rssParser.parseURL('https://www.aljazeera.com/xml/rss/all.xml');
@@ -122,7 +115,7 @@ async function fetchNews() {
   } catch (e) { return []; }
 }
 
-// --- CATEGORY 4: NEWS MEDIA (BBC Middle East) ---
+
 async function fetchBBC() {
   try {
     const feed = await rssParser.parseURL('http://feeds.bbci.co.uk/news/world/middle_east/rss.xml');
@@ -148,7 +141,7 @@ async function fetchBBC() {
   } catch (e) { return []; }
 }
 
-// --- CATEGORY 5: NEWS MEDIA (The Guardian) ---
+
 async function fetchGuardian() {
   try {
     const feed = await rssParser.parseURL('https://www.theguardian.com/world/middleeast/rss');
@@ -174,7 +167,7 @@ async function fetchGuardian() {
   } catch (e) { return []; }
 }
 
-// --- CATEGORY 6: NEWS MEDIA (New York Times Middle East) ---
+
 async function fetchNYT() {
   try {
     const feed = await rssParser.parseURL('https://rss.nytimes.com/services/xml/rss/nyt/MiddleEast.xml');
@@ -200,7 +193,7 @@ async function fetchNYT() {
   } catch (e) { return []; }
 }
 
-// --- CATEGORY 7: NEWS MEDIA (France 24 Middle East) ---
+
 async function fetchFrance24() {
   try {
     const feed = await rssParser.parseURL('https://www.france24.com/en/middle-east/rss');
@@ -226,7 +219,7 @@ async function fetchFrance24() {
   } catch (e) { return []; }
 }
 
-// --- CATEGORY 8: REGIONAL NEWS (Times of Israel) ---
+
 async function fetchTOI() {
   try {
     const feed = await rssParser.parseURL('https://www.timesofisrael.com/feed/');
@@ -252,28 +245,28 @@ async function fetchTOI() {
   } catch (e) { return []; }
 }
 
-// --- MAIN EXECUTION ---
+
 async function runPipeline() {
   await connectDB();
   console.log('Fetching OSINT data from 8 sources and extracting actors via NLP...');
   
-  // 1. Fetch from all 8 sources concurrently
+
   const [ngo, official, news, bbc, guardian, nyt, f24, toi] = await Promise.all([
     fetchNGO(), fetchOfficial(), fetchNews(), fetchBBC(), fetchGuardian(), fetchNYT(), fetchFrance24(), fetchTOI()
   ]);
   
-  // Combine all 8 arrays
+ 
   const allEvents = [...ngo, ...official, ...news, ...bbc, ...guardian, ...nyt, ...f24, ...toi];
 
-  // 2. STRICT FILTER: Keep only events mentioning US, Israel, Iran, or key proxies
+ 
   const relevantEvents = allEvents.filter(event => {
     const text = event.claim_text.toLowerCase();
     
-    // The article MUST contain at least one Iran-specific keyword to be saved
+    
     return IRAN_KEYWORDS.some(keyword => text.includes(keyword));
   });
 
-  // 3. Insert into Database
+  
   let added = 0;
   for (const event of relevantEvents) {
     try {
