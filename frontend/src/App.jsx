@@ -1,7 +1,7 @@
-// We only need to import our custom hook now!
+
 import { useDashboardData } from './hooks/useDashboardData';
 
-// UI Components
+
 import Header from './components/Header';
 import ExecutiveSummary from './components/ExecutiveSummary';
 import CommandBar from './components/CommandBar';
@@ -11,7 +11,7 @@ import TrendView from './components/TrendView';
 import LocationView from './components/LocationView';
 
 function App() {
-  // Grab all our logic and data from the custom hook
+  
   const {
     isDarkMode, setIsDarkMode,
     loading, syncing,
@@ -25,7 +25,7 @@ function App() {
     handleSync, handleResetAllFilters, handleExportCSV
   } = useDashboardData();
 
-  // Pure UI Rendering below!
+
   return (
     <div className="min-h-screen transition-colors duration-300 bg-slate-50 dark:bg-darker p-4 md:p-8 text-slate-900 dark:text-slate-200">
       
@@ -35,7 +35,7 @@ function App() {
         handleSync={handleSync} 
         syncing={syncing} 
         loading={loading} 
-        isAutoSync={isAutoSync}       // <-- Add this
+        isAutoSync={isAutoSync}       
     setIsAutoSync={setIsAutoSync}
       />
 
@@ -64,7 +64,7 @@ function App() {
          <EventFeed 
     events={displayedEvents} 
     loading={loading} 
-    isAutoSync={isAutoSync} // <-- Add this
+    isAutoSync={isAutoSync} 
   />
         </div>
         
