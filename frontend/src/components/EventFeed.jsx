@@ -12,7 +12,6 @@ export default function EventFeed({ events, loading, isAutoSync }){
   return (
     <div className="bg-white dark:bg-panel rounded-xl border border-slate-200 dark:border-slate-700 flex flex-col h-full max-h-[800px] shadow-sm dark:shadow-none transition-colors">
       
-      {/* --- HEADER WITH PULSING LIVE INDICATOR --- */}
       <div className="p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
         <div className="flex items-center gap-3">
           <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200">Live Intelligence Feed</h2>
@@ -31,7 +30,7 @@ export default function EventFeed({ events, loading, isAutoSync }){
         </div>
       </div>
 
-      {/* SCROLLABLE FEED */}
+
       <div className="flex-grow overflow-y-auto p-4 space-y-4">
         {loading && events.length === 0 ? (
           <div className="text-slate-500 text-center py-10 animate-pulse">Initializing OSINT Data Streams...</div>
@@ -48,7 +47,7 @@ export default function EventFeed({ events, loading, isAutoSync }){
                 className="bg-slate-50 dark:bg-darker p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-primary/50 dark:hover:border-slate-500 transition-all cursor-pointer group"
               >
                 
-                {/* CARD HEADER */}
+
                 <div className="flex justify-between items-center mb-4">
                   <span className="bg-blue-100 dark:bg-slate-800 text-blue-700 dark:text-primary text-xs font-bold px-2.5 py-1 rounded border border-blue-200 dark:border-slate-700">
                     {ev.source_name}
@@ -62,8 +61,7 @@ export default function EventFeed({ events, loading, isAutoSync }){
                     </div>
                   </div>
                 </div>
-                
-                {/* FACT: RAW CLAIM TEXT */}
+
                 <div className={isExpanded ? "mb-4" : "mb-0"}>
                   <div className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
                     <FileText className="w-3 h-3" /> Raw Source Claim (Fact)
@@ -73,7 +71,7 @@ export default function EventFeed({ events, loading, isAutoSync }){
                   </p>
                 </div>
 
-                {/* HIDDEN DRAWER: INFERENCES & SYSTEM DATA */}
+
                 {isExpanded && (
                   <div className="border-t border-slate-200 dark:border-slate-700/50 pt-4 mt-3 animate-in fade-in duration-200">
                     
@@ -83,7 +81,7 @@ export default function EventFeed({ events, loading, isAutoSync }){
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       
-                      {/* COL 1: Actor */}
+
                       <div className="flex flex-col gap-2">
                         <span className="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold flex items-center gap-1">
                           <Target className="w-3 h-3" /> Extracted Actor
@@ -99,7 +97,6 @@ export default function EventFeed({ events, loading, isAutoSync }){
                         )}
                       </div>
 
-                      {/* COL 2: Location */}
                       <div className="flex flex-col gap-2">
                         <span className="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold flex items-center gap-1">
                           <MapPin className="w-3 h-3" /> Location Focus
@@ -115,7 +112,6 @@ export default function EventFeed({ events, loading, isAutoSync }){
                         )}
                       </div>
 
-                      {/* COL 3: Confidence (Fixed Schema Name) */}
                       <div className="flex flex-col gap-2">
                         <span className="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold flex items-center gap-1">
                           <Activity className="w-3 h-3" /> NLP Confidence
@@ -124,8 +120,6 @@ export default function EventFeed({ events, loading, isAutoSync }){
                           {ev.confidence_score ? `${ev.confidence_score}/10` : 'Unrated'}
                         </span>
                       </div>
-
-                      {/* COL 4: Severity & Source Link */}
                       <div className="flex flex-col gap-2">
                         <span className="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold flex items-center gap-1">
                           <ShieldAlert className="w-3 h-3" /> Sys Severity
