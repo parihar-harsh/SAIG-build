@@ -13,8 +13,7 @@ export default function CommandBar({
 }) {
   return (
     <div className="flex flex-col lg:flex-row gap-4 mb-6 bg-white dark:bg-panel p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-      
-      {/* Search Input */}
+
       <div className="relative flex-grow">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <Search className="h-4 w-4 text-slate-400" />
@@ -28,10 +27,10 @@ export default function CommandBar({
         />
       </div>
 
-      {/* Filters & Actions */}
+
       <div className="flex flex-wrap items-center gap-3">
         
-        {/* Source Filter */}
+   
         <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 transition-colors">
           <Filter className="w-4 h-4 text-slate-500" />
           <select 
@@ -46,7 +45,7 @@ export default function CommandBar({
           </select>
         </div>
 
-        {/* Sort Dropdown */}
+    
         <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2 transition-colors">
           <SortDesc className="w-4 h-4 text-slate-500" />
           <select 
@@ -60,7 +59,7 @@ export default function CommandBar({
           </select>
         </div>
 
-        {/* THE NEW VERIFICATION TOGGLE */}
+
         <button 
           onClick={() => setVerifiedOnly(!verifiedOnly)}
           className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors border ${
@@ -74,7 +73,7 @@ export default function CommandBar({
           {verifiedOnly ? 'Verified Only' : 'Include Unverified'}
         </button>
 
-        {/* CSV Export Button */}
+
         <button 
           onClick={handleExportCSV}
           className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors shadow-sm"
