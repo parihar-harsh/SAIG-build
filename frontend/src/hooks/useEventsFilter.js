@@ -1,4 +1,4 @@
-// src/hooks/useEventsFilter.js
+
 import { useState } from 'react';
 
 export function useEventsFilter(events) {
