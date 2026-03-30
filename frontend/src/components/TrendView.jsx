@@ -2,11 +2,11 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 import { format, parseISO } from 'date-fns';
 
 export default function TrendView({ events }) {
-  // Process data for the chart
+ 
   const timelineData = events.reduce((acc, event) => {
     if (!event.event_datetime_utc) return acc;
     
-    // Group by hour
+    
     const dateObj = parseISO(event.event_datetime_utc);
     const timeKey = format(dateObj, 'MMM dd - HH:00');
     
@@ -28,11 +28,11 @@ export default function TrendView({ events }) {
   return (
     <div className="bg-white dark:bg-panel rounded-xl border border-slate-200 dark:border-slate-700 p-5 flex flex-col h-full max-h-[800px] shadow-sm dark:shadow-none transition-colors">
       
-      {/* 1. HEADER & HTML LEGEND (Totally immune to Recharts layout bugs) */}
+    
       <div className="flex flex-col gap-3 mb-2">
         <h2 className="text-lg font-bold text-slate-800 dark:text-slate-200">Incident Volume & Severity Trend</h2>
         
-        {/* Bulletproof Tailwind Legend */}
+
         <div className="flex flex-row items-center gap-5">
           <div className="flex items-center gap-2">
             <div className="w-3.5 h-3.5 rounded-sm bg-[#ef4444] shrink-0 shadow-sm"></div>
@@ -45,10 +45,10 @@ export default function TrendView({ events }) {
         </div>
       </div>
       
-      {/* 2. THE CHART */}
+
       <div className="flex-grow min-h-[300px] mt-4">
         <ResponsiveContainer width="100%" height="100%">
-          {/* We keep the left: -20 here so the Y-axis is flush, but it won't affect the legend anymore! */}
+
           <BarChart data={chartData} margin={{ top: 0, right: 10, left: -20, bottom: 60 }}>
             <XAxis 
               dataKey="time" 
@@ -69,7 +69,6 @@ export default function TrendView({ events }) {
               cursor={{ fill: 'rgba(148, 163, 184, 0.1)' }}
             />
             
-            {/* The Bars */}
             <Bar dataKey="High" stackId="a" fill="#ef4444" name="High Severity" />
             <Bar dataKey="LowMedium" stackId="a" fill="#3b82f6" name="Low/Med Severity" radius={[4, 4, 0, 0]} />
           </BarChart>
