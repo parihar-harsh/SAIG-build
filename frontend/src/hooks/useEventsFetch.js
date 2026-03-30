@@ -5,9 +5,9 @@ export function useEventsFetch() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
-  const [isAutoSync, setIsAutoSync] = useState(false); // <-- New State
+  const [isAutoSync, setIsAutoSync] = useState(false); 
 
-  // Initial load (shows spinner)
+
   const fetchEvents = async () => {
     setLoading(true);
     try {
@@ -23,7 +23,7 @@ export function useEventsFetch() {
     fetchEvents();
   }, []);
 
-  // Manual Sync (triggers backend scraper)
+
   const handleSync = async () => {
     setSyncing(true);
     try {
@@ -35,13 +35,12 @@ export function useEventsFetch() {
     setSyncing(false);
   };
 
-  // --- THE WAR ROOM ENGINE ---
+
   useEffect(() => {
     let intervalId;
     
     if (isAutoSync) {
-      // Every 30 seconds, silently fetch the latest DB events without triggering the loading spinner
-      intervalId = setInterval(async () => {
+     intervalId = setInterval(async () => {
         try {
           const response = await axios.get('http://localhost:5001/api/events');
           setEvents(response.data);
@@ -49,11 +48,9 @@ export function useEventsFetch() {
         } catch (error) {
           console.error("Auto-sync error:", error);
         }
-      }, 30000); // 30,000 ms = 30 seconds
-    }
+      }, 30000);  }
 
-    // Cleanup function: destroys the timer if the user turns it off, preventing memory leaks
-    return () => {
+     return () => {
       if (intervalId) clearInterval(intervalId);
     };
   }, [isAutoSync]);
