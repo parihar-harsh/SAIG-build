@@ -1,5 +1,5 @@
 
-import { useDashboardData } from './hooks/useDashboardData';
+import { useDashboardData } from './hooks/useDashBoardData';
 
 
 import Header from './components/Header';
