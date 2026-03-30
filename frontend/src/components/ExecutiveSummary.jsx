@@ -3,18 +3,15 @@ import SummaryCard from './SummaryCard';
 
 export default function ExecutiveSummary({ baseEvents, searchedEvents, activeFilter, setActiveFilter, resetAllFilters }) {
   
-  // --- 1. MATHEMATICS ---
-  
-  // Card 1: Uses base data (Ignores search)
+ 
   const totalEvents = baseEvents.length;
   
-  // Card 2: THE EXCEPTION! Uses searched data (Respects search)
-  const highSeverityCount = searchedEvents.filter(e => e.severity_score >= 8).length;
   
-  // Card 3: Uses base data (Ignores search)
+  const highSeverityCount = searchedEvents.filter(e => e.severity_score >= 8).length;
+ 
   const activeSources = [...new Set(baseEvents.map(e => e.source_name))].length;
 
-  // Card 4: Uses base data (Ignores search)
+  
   const actorCounts = baseEvents.reduce((acc, event) => {
     let actor = event.actor_1;
     if (actor && typeof actor === 'string' && actor.trim() !== '') {
@@ -35,7 +32,7 @@ export default function ExecutiveSummary({ baseEvents, searchedEvents, activeFil
     }
   }
 
-  // --- 2. RENDER CARDS ---
+  
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
       
