@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+
 export default {
   content: [
     "./index.html",
@@ -8,11 +8,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        dark: '#0f172a',     // Slate 900
-        darker: '#020617',   // Slate 950
-        panel: '#1e293b',    // Slate 800
-        primary: '#3b82f6',  // Blue 500
-        danger: '#ef4444',   // Red 500
+        dark: '#0f172a',     
+        darker: '#020617',   
+        panel: '#1e293b',    
+        primary: '#3b82f6', 
+        danger: '#ef4444',  
       }
     },
   },
