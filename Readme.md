@@ -295,7 +295,7 @@ Every piece of state and business logic lives in hooks. Components are pure rend
 
 ---
 
-By Harsh Parihar
+By Harsh
 ---
 
 ## License
