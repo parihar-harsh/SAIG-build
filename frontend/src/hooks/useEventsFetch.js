@@ -11,7 +11,7 @@ export function useEventsFetch() {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:5001/api/events');
+      const response = await axios.get('/api/events');
       setEvents(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -27,7 +27,7 @@ export function useEventsFetch() {
   const handleSync = async () => {
     setSyncing(true);
     try {
-      await axios.post('http://localhost:5001/api/sync'); 
+      await axios.post('/api/sync');
       await fetchEvents(); 
     } catch (error) {
       console.error("Error syncing live feeds:", error);
@@ -42,7 +42,7 @@ export function useEventsFetch() {
     if (isAutoSync) {
      intervalId = setInterval(async () => {
         try {
-          const response = await axios.get('http://localhost:5001/api/events');
+          const response = await axios.get('/api/events');
           setEvents(response.data);
           console.log("Silent Auto-Sync Complete");
         } catch (error) {
