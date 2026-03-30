@@ -95,6 +95,7 @@ export default function LocationView({ events, isDarkMode }) {
               isDarkMode 
                 ? "https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png"
                 : "https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png" 
+            }
           />
           
           {mapMarkers.map((marker, idx) => (
