@@ -295,13 +295,7 @@ Every piece of state and business logic lives in hooks. Components are pure rend
 
 ---
 
-## Submission Notes
-
-- **Candidate:** Harsh Parihar
-- **Role applied for:** Full-Stack / Front-End Engineer
-- **Build period:** 26 March 2026 (11:00 AM IST) — 30 March 2026 (11:00 AM IST)
-- **Organisation:** Specialist Advisory & Intervention Group (SAIG), CAL Groups
-
+By Harsh Parihar
 ---
 
 ## License
