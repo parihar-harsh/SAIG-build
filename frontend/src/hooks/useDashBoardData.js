@@ -1,24 +1,22 @@
-// src/hooks/useDashboardData.js
+
 import { useState } from 'react';
 
-// Import our new micro-hooks
+
 import { useTheme } from './useTheme';
 import { useEventsFetch } from './useEventsFetch';
 import { useEventsFilter } from './useEventsFilter';
 
 export function useDashboardData() {
-  const [activeTab, setActiveTab] = useState('trend'); // UI state for the right panel
+  const [activeTab, setActiveTab] = useState('trend'); 
   
-  // 1. Get Theme
+
   const { isDarkMode, setIsDarkMode } = useTheme();
   
-  // 2. Fetch Raw Data
+
   const { events, loading, syncing, handleSync, isAutoSync, setIsAutoSync } = useEventsFetch();
-  
-  // 3. Pass Raw Data into the Filter Hook
+
   const filterControls = useEventsFilter(events);
 
-  // 4. Handle CSV Export (using the filtered data)
   const handleExportCSV = () => {
     const headers = ['Date', 'Source', 'Type', 'Location', 'Primary Actor', 'Secondary Actor', 'Severity', 'Headline', 'URL'];
     const csvRows = filterControls.displayedEvents.map(ev => {
@@ -33,11 +31,10 @@ export function useDashboardData() {
     link.click();
   };
 
-  // 5. Combine everything and send it to App.jsx!
   return {
     isDarkMode, setIsDarkMode,
     loading, syncing, handleSync,
-    isAutoSync, setIsAutoSync, // <-- Add them to the export
+    isAutoSync, setIsAutoSync, 
     activeTab, setActiveTab,
     ...filterControls, 
     handleExportCSV
