@@ -4,8 +4,7 @@ import L from 'leaflet';
 import { format, parseISO } from 'date-fns';
 import { ShieldAlert } from 'lucide-react';
 
-// FIX FOR LEAFLET MARKERS IN REACT/VITE:
-// By default, React strips the URL paths for Leaflet's map pins. This restores them.
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
@@ -13,7 +12,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-// A custom red icon for high severity events
+
 const redIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
@@ -22,8 +21,6 @@ const redIcon = new L.Icon({
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
-
-// GEOCODING DICTIONARY: Maps your NLP text locations to GPS coordinates
 const GEO_DICT = {
   'tehran': [35.6892, 51.3890],
   'tel aviv': [32.0853, 34.7818],
@@ -46,8 +43,7 @@ const GEO_DICT = {
   'yemen': [15.5527, 48.5164]
 };
 
-export default function LocationView({ events, isDarkMode }) { // <-- Add isDarkMode here
-  // Process events to find map coordinates
+export default function LocationView({ events, isDarkMode }) { 
   const mapMarkers = useMemo(() => {
     const markers = [];
     
@@ -58,7 +54,7 @@ export default function LocationView({ events, isDarkMode }) { // <-- Add isDark
       const coords = GEO_DICT[locKey];
       
       if (coords) {
-        // Add a tiny random offset so pins at the same location don't perfectly overlap
+      
         const offsetLat = coords[0] + (Math.random() - 0.5) * 0.05;
         const offsetLng = coords[1] + (Math.random() - 0.5) * 0.05;
         
@@ -74,7 +70,7 @@ export default function LocationView({ events, isDarkMode }) { // <-- Add isDark
     return markers;
   }, [events]);
 
-  // Set the default center to the Middle East
+ 
   const mapCenter = [31.0, 40.0]; 
 
   return (
@@ -91,17 +87,14 @@ export default function LocationView({ events, isDarkMode }) { // <-- Add isDark
           scrollWheelZoom={true} 
           className="w-full h-full rounded-b-xl z-0"
         >
-          {/* A beautiful dark-themed map tile layer */}
-          {/* A theme-aware map tile layer */}
+
           <TileLayer
-            // The key forces Leaflet to re-render the map tiles immediately when the theme changes
             key={isDarkMode ? 'dark-tiles' : 'light-tiles'} 
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             url={
               isDarkMode 
                 ? "https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png"
-                : "https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png" // <-- Clean light theme
-            }
+                : "https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png" 
           />
           
           {mapMarkers.map((marker, idx) => (
