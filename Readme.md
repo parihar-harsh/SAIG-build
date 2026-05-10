@@ -1,4 +1,4 @@
-# SAIG OSINT Conflict Monitoring System
+# OSINT Conflict Monitoring System
 
 > A real-time open-source intelligence dashboard tracking the Iran-US/Israel conflict. Built as part of the SAIG Build Test — March 2026.
 
